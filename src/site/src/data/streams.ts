@@ -10,7 +10,7 @@ export const streams: Stream[] = [
   {
     id: 'fiction',
     name: '小说',
-    status: '职场言情 14 篇改稿定稿',
+    status: '职场言情 20 篇改稿定稿',
     latest: '咖啡厅重逢等场景完成语言润色（2026-05）',
     next: '开启校园言情改稿，统一视角与对白节奏',
   },

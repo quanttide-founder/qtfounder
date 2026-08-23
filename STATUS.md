@@ -20,7 +20,7 @@
 
 | 数据源 | 路径（环境变量） | 内容 |
 |--------|-----------------|------|
-| fiction | `QTFOUNDER_FICTION_PATH` | 改稿章节（职场言情/4_改稿，19 章） |
+| fiction | `QTFOUNDER_FICTION_PATH` | 改稿章节（职场言情/4_改稿，20 章） |
 | memory | `QTFOUNDER_MEMORY_PATH` | roadmap/（方向）+ context/（方法）文档 |
 
 ## 验证状态

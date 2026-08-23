@@ -146,6 +146,48 @@ export const fictionWorks: Work[] = [
       { version: 'v2', label: '语言润色', date: '2026-05', note: '精简对话，收敛结尾。' },
     ],
   },
+  {
+    slug: 'campus-revisit', title: '同游母校', type: '改稿', date: '2026-08',
+    description: '回到母校，想起十年前唯一一次和她一起上课的时光。',
+    revisions: [
+      { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
+    ],
+  },
+  {
+    slug: 'beach-walk-again', title: '海边再散步', type: '改稿', date: '2026-08',
+    description: '再次在海边散步，终于解开“你在我身后”的心结。',
+    revisions: [
+      { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
+    ],
+  },
+  {
+    slug: 'friends-dinner', title: '好友聚餐', type: '改稿', date: '2026-08',
+    description: '四人聚餐，牵线的真相在笑声中揭晓。',
+    revisions: [
+      { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
+    ],
+  },
+  {
+    slug: 'snow-talk', title: '赏雪谈心', type: '改稿', date: '2026-08',
+    description: '雪天谈心，她第一次说起心里那个空旷的仓库。',
+    revisions: [
+      { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
+    ],
+  },
+  {
+    slug: 'career-dilemma', title: '女主事业困境', type: '改稿', date: '2026-08',
+    description: '事业困境中的深夜对话，关于“如果重来一次”的假设。',
+    revisions: [
+      { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
+    ],
+  },
+  {
+    slug: 'caring-for-him', title: '女主照顾男主', type: '改稿', date: '2026-08',
+    description: '失眠的深夜，她陪着他，也试着照顾那个不肯好好休息的人。',
+    revisions: [
+      { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
+    ],
+  },
 ]
 
 export const works: Work[] = [
