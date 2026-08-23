@@ -84,7 +84,7 @@ jobs:
         working-directory: src/site
         run: |
           ossutil cp dist/index.html oss://${{ env.OSS_BUCKET }}/works -f --meta "Content-Type:text/html" --meta "Cache-Control:no-cache"
-          for s in $(ls -d src/content/works/fiction/*/ | xargs -n1 basename); do
+          for s in $(ls -d data/works/fiction/*/ | xargs -n1 basename); do
             ossutil cp dist/index.html oss://${{ env.OSS_BUCKET }}/works/fiction/drafts/$s -f --meta "Content-Type:text/html" --meta "Cache-Control:no-cache"
           done
 
