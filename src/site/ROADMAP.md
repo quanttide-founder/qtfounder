@@ -12,7 +12,7 @@
 
 - 首页：Hero + 关于 + 最近 3 篇作品
 - 作品页：`全部 / 改稿` 筛选
-- 详情页：单版本全文展示（`src/content/works/fiction/*.md`）
+- 详情页：单版本全文展示（`data/works/fiction/<slug>/<version>.md`）
 - 数据：`data/works.ts` 静态清单（type 仅 `改稿`）
 
 ---

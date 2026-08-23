@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0-alpha.5] - 2026-08-23
+
+### Changed
+
+- 改稿正文目录迁移：`src/content/works/fiction/<slug>/v2.md` → `src/site/data/works/fiction/<slug>/v2.md`（内容与代码数据分离，glob 根锚定 `/data/works/fiction/*/*.md`——对 CI 与本地一致友好；与 qtmedia 保持一致）
+
 ## [0.1.0-alpha.4] - 2026-08-14
 
 ### Removed

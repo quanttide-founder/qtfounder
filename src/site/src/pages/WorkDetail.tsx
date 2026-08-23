@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { getWork } from '../data/works'
 
 // 收录的版本正文：<slug>/<version>.md；v0/v1 待数据自动化从 git 历史生成
-const fictionContent = import.meta.glob('/src/content/works/fiction/*/*.md', {
+const fictionContent = import.meta.glob('/data/works/fiction/*/*.md', {
   query: '?raw',
   import: 'default',
   eager: true,
@@ -38,7 +38,7 @@ export default function WorkDetail() {
   // 默认查看最新版本（轨迹最后一个）
   const activeVersion = version ?? revisions[revisions.length - 1]?.version ?? 'v2'
 
-  const filePath = `/src/content/works/fiction/${work.slug}/${activeVersion}.md`
+  const filePath = `/data/works/fiction/${work.slug}/${activeVersion}.md`
   const raw = fictionContent[filePath]
 
   return (
