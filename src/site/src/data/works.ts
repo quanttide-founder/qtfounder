@@ -33,8 +33,7 @@ export const fictionWorks: Work[] = [
     slug: 'sleepless-night', title: '深夜失眠', type: '改稿', date: '2026-05',
     description: '深夜翻来覆去，各自想着同一个人。',
     revisions: [
-      { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
-      { version: 'v1', label: '叙事调整', date: '2026-05', note: '补全两人各自的心理线。' },
+      { version: 'v1', label: '初稿', date: '2026-04', note: '完整初稿。' },
       { version: 'v2', label: '语言润色', date: '2026-05', note: '压缩内心独白，收紧节奏。' },
     ],
   },
@@ -105,8 +104,7 @@ export const fictionWorks: Work[] = [
     slug: 'bar-confession', title: '酒吧表白', type: '改稿', date: '2026-05',
     description: '一杯酒壮了胆，十年的喜欢终于说出了口。',
     revisions: [
-      { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
-      { version: 'v1', label: '叙事调整', date: '2026-05', note: '调整表白前的情感铺垫。' },
+      { version: 'v1', label: '初稿', date: '2026-04', note: '完整初稿。' },
       { version: 'v2', label: '语言润色', date: '2026-05', note: '精简对白，统一视角。' },
     ],
   },
@@ -157,6 +155,7 @@ export const fictionWorks: Work[] = [
     slug: 'beach-walk-again', title: '海边再散步', type: '改稿', date: '2026-08',
     description: '再次在海边散步，终于解开“你在我身后”的心结。',
     revisions: [
+      { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
       { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
     ],
   },
