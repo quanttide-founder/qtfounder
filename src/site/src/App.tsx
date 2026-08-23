@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Works from "./pages/Works";
@@ -11,8 +11,12 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/works" element={<Works />} />
-          <Route path="/works/fiction/drafts/:slug" element={<WorkDetail />} />
+          <Route path="/fictions" element={<Works type="小说" title="小说" />} />
+          <Route path="/articles" element={<Works type="文章" title="文章" />} />
+          <Route path="/games" element={<Works type="游戏" title="游戏" />} />
+          <Route path="/tools" element={<Works type="工具" title="工具" />} />
+          <Route path="/fictions/:slug" element={<WorkDetail />} />
+          <Route path="/works" element={<Navigate to="/fictions" replace />} />
         </Routes>
       </Layout>
     </BrowserRouter>

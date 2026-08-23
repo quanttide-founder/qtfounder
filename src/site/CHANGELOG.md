@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.0-beta.2] - 2026-08-23
+
+### Changed
+
+- 作品页按分类拆分独立 URL：`/fictions`、`/articles`、`/games`、`/tools`，原 `/works` 重定向到 `/fictions`
+- 分类从「改稿/文章/游戏/工具」改名「小说/文章/游戏/工具」，小说类对应原改稿（`fictionWorks`）
+- 全局顶部导航栏：首页 / 小说 / 文章 / 游戏 / 工具，当前分类高亮
+- 小说详情页路径由 `/works/fiction/drafts/:slug` 改为 `/fictions/:slug`，部署 workflow 的 SPA 路由 key 同步更新
+- 小说列表显示数据源编号前缀（如 1.1、10.1），按编号排序；`works.ts` 新增 `number` 字段
+- 首页移除「创作流」区块，仅保留创作域矩阵与简介
+- 小说详情页移除「改稿轨迹」区块，正文默认展示最新版本；底部新增上一篇/下一篇切换
+
 ## [0.1.0-beta.1] - 2026-08-23
 
 ### Changed

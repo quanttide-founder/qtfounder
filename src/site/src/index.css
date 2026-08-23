@@ -62,7 +62,15 @@ p {
   margin-bottom: 2rem;
 }
 
-.header a {
+.header-inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.header-brand {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95em;
@@ -70,8 +78,30 @@ p {
   letter-spacing: 0.02em;
 }
 
-.header a:hover {
+.header-brand:hover {
   color: #1a1a1a;
+}
+
+.header-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 0.9em;
+  color: #999;
+  padding-bottom: 2px;
+}
+
+.nav-link:hover {
+  color: #555;
+}
+
+.nav-active {
+  color: #1a1a1a;
+  font-weight: 600;
+  border-bottom: 2px solid #1a1a1a;
 }
 
 .footer {
@@ -248,6 +278,13 @@ section h2 {
   margin-right: 0.5em;
 }
 
+.work-number {
+  font-size: 0.85em;
+  color: #bbb;
+  margin-right: 0.5em;
+  font-variant-numeric: tabular-nums;
+}
+
 .work-title {
   font-weight: 500;
   font-size: 1em;
@@ -413,4 +450,47 @@ section h2 {
 .detail-content p {
   margin-bottom: 0.85em;
   color: #333;
+}
+
+/* Prev / Next navigation */
+
+.prev-next {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.pn-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-decoration: none;
+  max-width: 45%;
+}
+
+.pn-link:hover .pn-title {
+  text-decoration: underline;
+}
+
+.pn-next {
+  text-align: right;
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.pn-label {
+  font-size: 0.85em;
+  color: #aaa;
+}
+
+.pn-title {
+  font-size: 0.95em;
+  color: #1a1a1a;
+}
+
+.pn-empty {
+  flex: 1;
 }

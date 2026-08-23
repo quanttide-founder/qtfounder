@@ -1,4 +1,4 @@
-export type WorkType = '改稿' | '文章' | '游戏' | '工具'
+export type WorkType = '小说' | '文章' | '游戏' | '工具'
 
 export interface Revision {
   version: string // 'v0' | 'v1' | 'v2'
@@ -13,22 +13,24 @@ export interface Work {
   type: WorkType
   date: string
   description: string
+  /** 小说：数据源编号前缀（如 1.1、10.1） */
+  number?: string
   /** 文章/游戏/工具：外部原文或仓库链接 */
   link?: string
-  /** 仅改稿：初稿 → 改稿轨迹 */
+  /** 仅小说：初稿 → 改稿轨迹 */
   revisions?: Revision[]
 }
 
 export const fictionWorks: Work[] = [
   {
-    slug: 'preface', title: '前言', type: '改稿', date: '2026-08',
+    slug: 'preface', title: '前言', type: '小说', number: '0', date: '2026-08',
     description: '初稿前言，记录便利店谈心场景的写作起点。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
     ],
   },
 {
-    slug: 'coffee-reunion', title: '咖啡厅重逢', type: '改稿', date: '2026-05',
+    slug: 'coffee-reunion', title: '咖啡厅重逢', type: '小说', number: '1.1', date: '2026-05',
     description: '十年后偶然在一家咖啡厅重遇，两个人都没想到会以这样的方式再见。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿，沙发咖啡场景。' },
@@ -37,7 +39,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'sleepless-night', title: '深夜失眠', type: '改稿', date: '2026-05',
+    slug: 'sleepless-night', title: '深夜失眠', type: '小说', number: '1.2', date: '2026-05',
     description: '深夜翻来覆去，各自想着同一个人。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -45,7 +47,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'exhibition-meeting', title: '展会再遇', type: '改稿', date: '2026-05',
+    slug: 'exhibition-meeting', title: '展会再遇', type: '小说', number: '2.1', date: '2026-05',
     description: '工作场合的第二次碰面，比第一次多了点刻意。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -54,14 +56,14 @@ export const fictionWorks: Work[] = [
     ],
   },
   {
-    slug: 'male-lead-speech', title: '男主演讲', type: '改稿', date: '2026-08',
+    slug: 'male-lead-speech', title: '男主演讲', type: '小说', number: '2.2', date: '2026-08',
     description: '男主在行业论坛上的演讲，关于软件、工程与艺术创作。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
     ],
   },
 {
-    slug: 'evening-crayfish', title: '傍晚小龙虾', type: '改稿', date: '2026-05',
+    slug: 'evening-crayfish', title: '傍晚小龙虾', type: '小说', number: '2.3', date: '2026-05',
     description: '一起吃小龙虾的傍晚，辣出来的话题比平时多。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -70,28 +72,28 @@ export const fictionWorks: Work[] = [
     ],
   },
   {
-    slug: 'work-daily', title: '工作日常', type: '改稿', date: '2026-08',
+    slug: 'work-daily', title: '工作日常', type: '小说', number: '2.3', date: '2026-08',
     description: '男主展示自己的命令行工具，日常工作中的创作片段。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
     ],
   },
   {
-    slug: 'work-help', title: '女主工作求助', type: '改稿', date: '2026-08',
+    slug: 'work-help', title: '女主工作求助', type: '小说', number: '3.1', date: '2026-08',
     description: '女主被邮件淹没，向男主求助的开场。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
     ],
   },
   {
-    slug: 'chat', title: '男女主聊天', type: '改稿', date: '2026-08',
+    slug: 'chat', title: '男女主聊天', type: '小说', number: '3.2', date: '2026-08',
     description: '心里空洞的女主，想找他陪自己说说话。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
     ],
   },
 {
-    slug: 'convenience-store-talk', title: '便利店谈心', type: '改稿', date: '2026-05',
+    slug: 'convenience-store-talk', title: '便利店谈心', type: '小说', number: '4.1', date: '2026-05',
     description: '深夜便利店的透明玻璃前，聊了一些白天说不出口的话。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -100,7 +102,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'night-market-date', title: '夜市约会', type: '改稿', date: '2026-05',
+    slug: 'night-market-date', title: '夜市约会', type: '小说', number: '4.2', date: '2026-05',
     description: '在夜市麻辣烫摊前，两个人心照不宣地确认了彼此的心意。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -109,7 +111,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'morning-greetings', title: '互相问早', type: '改稿', date: '2026-05',
+    slug: 'morning-greetings', title: '互相问早', type: '小说', number: '4.3', date: '2026-05',
     description: '从第一条早安开始，每一天都有了期待。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -118,7 +120,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'hotpot-at-home', title: '家里吃火锅', type: '改稿', date: '2026-05',
+    slug: 'hotpot-at-home', title: '家里吃火锅', type: '小说', number: '5.1', date: '2026-05',
     description: '在家煮火锅是最放松的时刻，锅里的热气让话也多了起来。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -127,14 +129,14 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'campus-revisit', title: '同游母校', type: '改稿', date: '2026-08',
+    slug: 'campus-revisit', title: '同游母校', type: '小说', number: '6.1', date: '2026-08',
     description: '回到母校，想起十年前唯一一次和她一起上课的时光。',
     revisions: [
       { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
     ],
   },
 {
-    slug: 'beach-walk', title: '海边散步', type: '改稿', date: '2026-05',
+    slug: 'beach-walk', title: '海边散步', type: '小说', number: '6.2', date: '2026-05',
     description: '海风、沙滩、并肩走的人，这个晚上一切都刚好。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -143,7 +145,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'bar-confession', title: '酒吧表白', type: '改稿', date: '2026-05',
+    slug: 'bar-confession', title: '酒吧表白', type: '小说', number: '7.1', date: '2026-05',
     description: '一杯酒壮了胆，十年的喜欢终于说出了口。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -151,14 +153,14 @@ export const fictionWorks: Work[] = [
     ],
   },
   {
-    slug: 'evening-walk', title: '男女主散步', type: '改稿', date: '2026-08',
+    slug: 'evening-walk', title: '男女主散步', type: '小说', number: '7.1', date: '2026-08',
     description: '并肩走回家的路上，两人之间那堵绕不过去的墙。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
     ],
   },
 {
-    slug: 'park-hug', title: '公园拥抱', type: '改稿', date: '2026-05',
+    slug: 'park-hug', title: '公园拥抱', type: '小说', number: '7.2', date: '2026-05',
     description: '公园长椅上的一个拥抱，比任何语言都更有力量。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -167,7 +169,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'beach-walk-again', title: '海边再散步', type: '改稿', date: '2026-08',
+    slug: 'beach-walk-again', title: '海边再散步', type: '小说', number: '8.1', date: '2026-08',
     description: '再次在海边散步，终于解开“你在我身后”的心结。',
     revisions: [
       { version: 'v1', label: '初稿', date: '2026-08', note: '初稿版本。' },
@@ -175,14 +177,14 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'friends-dinner', title: '好友聚餐', type: '改稿', date: '2026-08',
+    slug: 'friends-dinner', title: '好友聚餐', type: '小说', number: '8.2', date: '2026-08',
     description: '四人聚餐，牵线的真相在笑声中揭晓。',
     revisions: [
       { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
     ],
   },
 {
-    slug: 'study-companionship', title: '书房陪伴', type: '改稿', date: '2026-05',
+    slug: 'study-companionship', title: '书房陪伴', type: '小说', number: '10.1', date: '2026-05',
     description: '他在书房工作，她在一旁看书，安静地待在一起就很好了。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -191,28 +193,28 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'snow-talk', title: '赏雪谈心', type: '改稿', date: '2026-08',
+    slug: 'snow-talk', title: '赏雪谈心', type: '小说', number: '11.1', date: '2026-08',
     description: '雪天谈心，她第一次说起心里那个空旷的仓库。',
     revisions: [
       { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
     ],
   },
 {
-    slug: 'career-dilemma', title: '女主事业困境', type: '改稿', date: '2026-08',
+    slug: 'career-dilemma', title: '女主事业困境', type: '小说', number: '11.2', date: '2026-08',
     description: '事业困境中的深夜对话，关于“如果重来一次”的假设。',
     revisions: [
       { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
     ],
   },
 {
-    slug: 'caring-for-him', title: '女主照顾男主', type: '改稿', date: '2026-08',
+    slug: 'caring-for-him', title: '女主照顾男主', type: '小说', number: '12.1', date: '2026-08',
     description: '失眠的深夜，她陪着他，也试着照顾那个不肯好好休息的人。',
     revisions: [
       { version: 'v2', label: '语言润色', date: '2026-08', note: '当前改稿版本。' },
     ],
   },
 {
-    slug: 'living-room-drama', title: '客厅看剧', type: '改稿', date: '2026-05',
+    slug: 'living-room-drama', title: '客厅看剧', type: '小说', number: '12.2', date: '2026-05',
     description: '窝在沙发上看了一整晚的剧，剧情没记住多少，旁边的呼吸声倒是记得很清楚。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },
@@ -221,7 +223,7 @@ export const fictionWorks: Work[] = [
     ],
   },
 {
-    slug: 'balcony-stargazing', title: '阳台看星星', type: '改稿', date: '2026-05',
+    slug: 'balcony-stargazing', title: '阳台看星星', type: '小说', number: '12.3', date: '2026-05',
     description: '阳台上数星星，数到后来谁也记不清数到哪了。',
     revisions: [
       { version: 'v0', label: '初稿', date: '2026-04', note: '完整初稿。' },

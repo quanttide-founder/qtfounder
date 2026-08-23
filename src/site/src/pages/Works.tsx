@@ -1,46 +1,33 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { works, type WorkType } from '../data/works'
+import { works, type Work, type WorkType } from '../data/works'
 
-type Filter = '全部' | WorkType
-const filters: Filter[] = ['全部', '改稿', '文章', '游戏', '工具']
+// 小说按数据源编号（如 0、1.1、10.1）排序；其他类型按日期倒序
+function byNumber(a: Work, b: Work) {
+  const na = a.number ? Number(a.number.split('.')[0]) : 0
+  const nb = b.number ? Number(b.number.split('.')[0]) : 0
+  return na - nb
+}
 
 function byDateDesc(a: { date: string }, b: { date: string }) {
   return b.date.localeCompare(a.date)
 }
 
-export default function Works() {
-  const [activeFilter, setActiveFilter] = useState<Filter>('全部')
-
-  const filtered = (activeFilter === '全部' ? works : works.filter(w => w.type === activeFilter))
-    .sort(byDateDesc)
+export default function Works({ type, title }: { type: WorkType; title: string }) {
+  const list = (type === '小说' ? works.filter(w => w.type === type).sort(byNumber) : works.filter(w => w.type === type).sort(byDateDesc))
 
   return (
     <div className="page works-page">
-      <Link to="/" className="back-link">&larr; 首页</Link>
-      <h1>作品</h1>
+      <h1>{title}</h1>
 
-      <nav className="filter-nav">
-        {filters.map(f => (
-          <button
-            key={f}
-            className={f === activeFilter ? 'filter-active' : ''}
-            onClick={() => setActiveFilter(f)}
-          >
-            {f}
-          </button>
-        ))}
-      </nav>
-
-      {filtered.length === 0 ? (
-        <p className="empty">暂无匹配作品</p>
+      {list.length === 0 ? (
+        <p className="empty">暂无作品</p>
       ) : (
         <div className="works-list">
-          {filtered.map(work => (
+          {list.map(work => (
             <div className="work-item" key={work.slug}>
-              <span className="work-type">{work.type}</span>
-              {work.type === '改稿' ? (
-                <Link to={`/works/fiction/drafts/${work.slug}`} className="work-title">
+              {work.type === '小说' ? (
+                <Link to={`/fictions/${work.slug}`} className="work-title">
+                  {work.number ? <span className="work-number">{work.number}</span> : null}
                   {work.title}
                 </Link>
               ) : (

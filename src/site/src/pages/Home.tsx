@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-import { activities } from '../data/activities'
 import { streams } from '../data/streams'
 
 // 联系信息：GitHub 为真实链接；邮件与社交为占位，待作者补充真实值后启用
@@ -10,8 +8,6 @@ const contacts = [
 ]
 
 export default function Home() {
-  const timeline = activities.slice().sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10)
-
   return (
     <div className="page home">
       <section className="hero">
@@ -20,34 +16,6 @@ export default function Home() {
           已交付的产品与文字，定义了我的认知。
         </h1>
         <p className="hero-anchor">今日 · journal 1 篇 · 影视规则显性化</p>
-      </section>
-
-      <section className="section-activity">
-        <h2>创作流</h2>
-        {timeline.map(activity => (
-          <div className="activity-item" key={activity.id}>
-            <span className="activity-date">{activity.date}</span>
-            <div className="activity-body">
-              <div className="activity-line">
-                <span className="work-type">{activity.type}</span>
-                {activity.link ? (
-                  <a
-                    href={activity.link}
-                    className="activity-title"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {activity.title}
-                  </a>
-                ) : (
-                  <span className="activity-title">{activity.title}</span>
-                )}
-              </div>
-              <p className="activity-note">{activity.note}</p>
-            </div>
-          </div>
-        ))}
-        <Link to="/works" className="view-all">更多 &rarr;</Link>
       </section>
 
       <section className="section-domains">
