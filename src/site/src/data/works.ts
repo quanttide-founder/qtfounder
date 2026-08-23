@@ -20,7 +20,6 @@ export interface Work {
 }
 
 export const fictionWorks: Work[] = [
-export const fictionWorks: Work[] = [
   {
     slug: 'preface', title: '前言', type: '改稿', date: '2026-08',
     description: '初稿前言，记录便利店谈心场景的写作起点。',
@@ -230,7 +229,6 @@ export const fictionWorks: Work[] = [
       { version: 'v2', label: '语言润色', date: '2026-05', note: '精简对话，收敛结尾。' },
     ],
   },
-]
 ]
 
 export const works: Work[] = [
