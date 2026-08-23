@@ -1,7 +1,7 @@
 # qtfounder 状态报告
 
-> 更新日期：2026-08-15
-> 最新 commit：87f5867
+> 更新日期：2026-08-23
+> 最新 commit：977fd67
 
 ## 项目定位
 
@@ -11,7 +11,7 @@
 
 | 模块 | 说明 | 版本 | 状态 |
 |------|------|------|------|
-| `src/site/` | 创始人官网（React + Vite） | v0.1.0-alpha.4 | ✅ 从"作品集"转向"创作现场"（时间线/矩阵/改稿轨迹） |
+| `src/site/` | 创始人官网（React + Vite） | v0.1.0-beta.1 | ✅ 从"作品集"转向"创作现场"（时间线/矩阵/改稿轨迹） |
 | `src/studio/` | 创始人工作台（Flutter） | 1.0.0+1 | ✅ 壳 + 数据源（fiction/memory 环境变量配置） |
 | `src/provider/` | 创作数据 API（Go） | v0.1.0 | ✅ chapters/memory/health 三 API，真实数据源测试通过 |
 | `src/cli/` | CLI 工具（Rust） | v0.1.0 | ✅ health 子命令（check/track/history/profile，git 历史 + LLM 情绪维度） |
@@ -30,7 +30,7 @@
 | src/studio | flutter analyze 零问题 · flutter test 通过 · flutter build web 成功 |
 | src/provider | go build / go vet / go test 全通过（真实数据源） |
 | src/cli | cargo build / cargo test 通过 |
-| src/site | npm 构建正常（v0.1.0-alpha.4） |
+| src/site | npm 构建正常（v0.1.0-beta.1） |
 
 ## 数据流
 
