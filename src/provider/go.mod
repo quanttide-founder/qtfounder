@@ -1,3 +1,3 @@
-module github.com/quanttide/qtfounder-provider
+module github.com/quanttide-founder/qtfounder-provider
 
 go 1.26

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/quanttide/qtfounder-provider/internal/creative"
+	"github.com/quanttide-founder/qtfounder-provider/internal/creative"
 )
 
 func main() {
