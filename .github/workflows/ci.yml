@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/provider/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    paths:
+      - 'src/provider/**'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  provider:
+    name: Provider Test & Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/provider
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - name: Test
+        run: go test ./...
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Format check
+        run: test -z "$(gofmt -l .)"
+
+  terraform:
+    name: Terraform Validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: manifests/terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.15.8' # 对齐 qtcloud-delib 本地环境
+
+      - name: Format check
+        run: terraform fmt -check -diff
+
+      - name: Validate
+        run: terraform validate -no-color

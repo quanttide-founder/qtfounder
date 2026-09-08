@@ -1,0 +1,147 @@
+# 部署 provider：推送 tag（provider/*，如 provider/v0.1.0）时，
+# 构建发布 Docker 镜像（数据源 fiction / memory 打入镜像），再通过 Terraform apply 部署到阿里云 FC。
+#
+# 参考 qtcloud-delib deploy-provider 模式，简化点：
+#   - 无 RDS/VPC（provider 只读本地数据文件），terraform 仅 FC 函数 + HTTP 触发器
+#   - 数据源随镜像版本固定：更新 fiction / memory = 推新 tag 重新部署
+#
+# 所需 GitHub secrets（仓库级）：
+#   - QTFOUNDER_SECRET_KEY：API 访问密钥（注入 FC 环境变量，客户端以 Bearer 携带）
+#   - ALIYUN_ACCESS_KEY_ID / ALIYUN_ACCESS_KEY_SECRET：RAM 用户 AccessKey（terraform 用）
+#   - ALIYUN_ACR_USERNAME / ALIYUN_ACR_PASSWORD / ALIYUN_ACR_REGISTRY：ACR 凭证（docker login；REGISTRY 为实例公网地址）
+#   - DOCKERHUB_USERNAME / DOCKERHUB_PASSWORD：Docker Hub 凭证（对外分发通道）
+#
+# 前置条件（一次性，主账号操作）：
+#   - OSS 状态桶已存在；terraform state key 固定为 qtfounder/terraform.tfstate
+#   - ACR 仓库 quanttide/qtfounder-provider 已创建（PUBLIC，FC 免凭证直拉）
+#
+# 镜像双通道原因：FC 中国区无法拉取 Docker Hub 镜像，部署用镜像固定指向同地域 ACR
+
+name: Deploy Provider
+
+on:
+  push:
+    tags:
+      - 'provider/**'
+
+concurrency:
+  group: deploy-provider
+  cancel-in-progress: false
+
+env:
+  TF_VAR_region: cn-hangzhou
+  TF_VAR_environment: prod
+  TF_STATE_BUCKET: quanttide-terraform-state
+  TF_STATE_KEY: qtfounder/terraform.tfstate
+  ACR_NAMESPACE: quanttide
+
+jobs:
+  build-image:
+    name: Build & Push Image
+    runs-on: ubuntu-latest
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
+    steps:
+      - name: Checkout qtfounder
+        uses: actions/checkout@v4
+
+      # 数据源快照打入镜像（同组织私有仓库，GITHUB_TOKEN 需组织授权可读）
+      - name: Checkout fiction
+        uses: actions/checkout@v4
+        with:
+          repository: quanttide-founder/quanttide-fiction-of-founder
+          path: assets/fiction
+
+      - name: Checkout memory
+        uses: actions/checkout@v4
+        with:
+          repository: quanttide-founder/quanttide-memory-of-founder
+          path: assets/memory
+
+      # tag provider/v0.1.0 → 镜像 tag v0.1.0（仅 tag 触发）
+      - name: Resolve Image Tag
+        id: image
+        run: |
+          TAG="${GITHUB_REF_NAME#provider/}"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Login to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ALIYUN_ACR_REGISTRY }}
+          username: ${{ secrets.ALIYUN_ACR_USERNAME }}
+          password: ${{ secrets.ALIYUN_ACR_PASSWORD }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: src/provider/Dockerfile
+          push: true
+          # 关闭 provenance/sbom：unknown/unknown 平台 manifest 会被 FC 镜像优化器拒绝（同 qtcloud-delib）
+          provenance: false
+          sbom: false
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/qtfounder-provider:${{ steps.image.outputs.tag }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/qtfounder-provider:latest
+            ${{ secrets.ALIYUN_ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/qtfounder-provider:${{ steps.image.outputs.tag }}
+            ${{ secrets.ALIYUN_ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/qtfounder-provider:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    needs: build-image
+    permissions:
+      contents: read
+
+    env:
+      ALICLOUD_ACCESS_KEY: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+      ALICLOUD_SECRET_KEY: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+      TF_VAR_secret_key: ${{ secrets.QTFOUNDER_SECRET_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 部署镜像固定指向 ACR（FC 中国区拉不到 Docker Hub）；仅写入 GITHUB_ENV，不进 job output
+      - name: Resolve Image Name
+        run: |
+          TAG="${GITHUB_REF_NAME#provider/}"
+          echo "TF_VAR_image=${{ secrets.ALIYUN_ACR_REGISTRY }}/${ACR_NAMESPACE}/qtfounder-provider:${TAG}" >> "$GITHUB_ENV"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.15.8' # 对齐 qtcloud-delib 本地环境
+
+      - name: Terraform Init（OSS 远程状态）
+        working-directory: manifests/terraform
+        run: |
+          terraform init -input=false \
+            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
+            -backend-config="key=${{ env.TF_STATE_KEY }}" \
+            -backend-config="region=${{ env.TF_VAR_region }}"
+
+      - name: Terraform Validate
+        working-directory: manifests/terraform
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        working-directory: manifests/terraform
+        run: terraform plan -input=false -no-color -out=tfplan
+
+      - name: Terraform Apply
+        working-directory: manifests/terraform
+        run: terraform apply -input=false -no-color tfplan
