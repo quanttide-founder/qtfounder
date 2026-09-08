@@ -62,10 +62,10 @@ func chapterNumbers(id string) (int, int) {
 	return a, b
 }
 
-// ListMemoryDocs memory 文档列表（roadmap/*.md + context/*.md）
+// ListMemoryDocs memory 文档列表（journal/*.md + handbook/*.md）
 func (r *Repository) ListMemoryDocs() ([]MemoryDoc, error) {
 	var docs []MemoryDoc
-	for _, category := range []string{"roadmap", "context"} {
+	for _, category := range []string{"journal", "handbook"} {
 		dir := filepath.Join(r.MemoryPath, category)
 		entries, err := os.ReadDir(dir)
 		if err != nil {

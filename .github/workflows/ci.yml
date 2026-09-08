@@ -49,6 +49,10 @@ jobs:
         with:
           terraform_version: '1.15.8' # 对齐 qtcloud-delib 本地环境
 
+      # validate 需要已安装 provider（schema 校验）；仅初始化不碰远程后端
+      - name: Terraform Init
+        run: terraform init -backend=false -input=false
+
       - name: Format check
         run: terraform fmt -check -diff
 
