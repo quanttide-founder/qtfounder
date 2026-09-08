@@ -17,6 +17,11 @@ func SecretKeyAuth(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 			return
 		}
+		// /health 免鉴权：FC 健康检查期望 2xx，应用层拦截会导致实例无法就绪
+		if r.URL.Path == "/health" {
+			next.ServeHTTP(w, r)
+			return
+		}
 		if !matches(secret, r) {
 			w.Header().Set("WWW-Authenticate", `Bearer realm="qtfounder"`)
 			http.Error(w, "unauthorized", http.StatusUnauthorized)

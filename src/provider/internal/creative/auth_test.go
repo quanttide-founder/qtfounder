@@ -22,6 +22,15 @@ func TestSecretKeyAuth(t *testing.T) {
 		}
 	})
 
+	t.Run("health 免鉴权", func(t *testing.T) {
+		req := httptest.NewRequest("GET", "/health", nil)
+		rec := httptest.NewRecorder()
+		SecretKeyAuth(next).ServeHTTP(rec, req)
+		if rec.Code != http.StatusOK {
+			t.Errorf("code = %d, want 200", rec.Code)
+		}
+	})
+
 	t.Run("缺少密钥返回 401", func(t *testing.T) {
 		req := httptest.NewRequest("GET", "/api/chapters", nil)
 		rec := httptest.NewRecorder()

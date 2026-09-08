@@ -21,8 +21,8 @@ func main() {
 	h := creative.NewHandler(repo)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /api/chapters", h.ListChapters)
-	mux.HandleFunc("GET /api/memory", h.ListMemoryDocs)
+	mux.HandleFunc("GET /chapters", h.ListChapters)
+	mux.HandleFunc("GET /memory", h.ListMemoryDocs)
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{"status":"ok"}`))

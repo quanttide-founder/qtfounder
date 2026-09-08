@@ -9,8 +9,8 @@ qtfounder 的 API 总体构成——两类接口：
 | 端点 | 说明 |
 |------|------|
 | `GET /health` | 健康检查 |
-| `GET /api/chapters` | 改稿章节列表（fiction/职场言情/4_改稿） |
-| `GET /api/memory` | memory 文档列表（roadmap/ + context/） |
+| `GET /chapters` | 改稿章节列表（fiction/职场言情/4_改稿） |
+| `GET /memory` | memory 文档列表（roadmap/ + context/） |
 
 详细定义见 [provider.md](provider.md)。
 

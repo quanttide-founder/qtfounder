@@ -16,9 +16,16 @@ variable "environment" {
   default     = "prod"
 }
 
-variable "image" {
-  description = "FC 容器镜像。由 CI 注入（TF_VAR_image 拼接 secret ALIYUN_ACR_REGISTRY 的实例地址）或 terraform.tfvars 提供；实例地址属敏感信息不写默认值"
+variable "code_bucket" {
+  description = "ZIP 代码包所在 OSS 桶（FC custom runtime）"
   type        = string
+  default     = "qtcloud-asset"
+}
+
+variable "code_object" {
+  description = "ZIP 代码包在桶内的对象路径"
+  type        = string
+  default     = "qtfounder/provider/qtfounder-provider-go-linux-amd64.zip"
 }
 
 variable "secret_key" {

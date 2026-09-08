@@ -6,15 +6,15 @@
 
 以 fiction + memory 为数据源（环境变量 QTFOUNDER_FICTION_PATH / QTFOUNDER_MEMORY_PATH，与 Studio 共用）。
 
-- [x] `GET /api/chapters`：改稿章节列表（数值排序）
-- [x] `GET /api/memory`：memory 文档列表（roadmap/ + context/）
+- [x] `GET /chapters`：改稿章节列表（数值排序）
+- [x] `GET /memory`：memory 文档列表（roadmap/ + context/）
 - [x] `GET /health`：健康检查
 - [x] 真实数据源测试（repository_test.go）
 
 ## 目标 2：内容接口
 
-- [ ] `GET /api/chapters/{id}`：章节详情（正文内容，支持 Web 端阅读）
-- [ ] `GET /api/memory/{category}/{name}`：文档内容
+- [ ] `GET /chapters/{id}`：章节详情（正文内容，支持 Web 端阅读）
+- [ ] `GET /memory/{category}/{name}`：文档内容
 - [ ] 章节状态标注（成稿 / 脚本 / 规划——对齐改稿轨迹）
 
 ## 目标 3：生产化

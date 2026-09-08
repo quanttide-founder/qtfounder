@@ -23,7 +23,7 @@ QTFOUNDER_ADDR=:8080 \
 {"status": "ok"}
 ```
 
-### GET /api/chapters
+### GET /chapters
 
 改稿章节列表（fiction/职场言情/4_改稿，按章节编号数值排序）。
 
@@ -43,7 +43,7 @@ QTFOUNDER_ADDR=:8080 \
 | `title` | 章节标题（如 `咖啡厅重逢`） |
 | `path` | 文件绝对路径 |
 
-### GET /api/memory
+### GET /memory
 
 memory 文档列表（roadmap/ + context/，按分类与名称排序）。
 

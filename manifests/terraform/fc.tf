@@ -1,27 +1,38 @@
-# 函数计算（FC 3.0）：custom-container 容器镜像。
-# 与 qtcloud-delib 的差异：无 RDS/VPC 依赖（provider 只读本地数据文件），
-# 故不需要 RAM 角色、VPC 配置与系统级 platform remote state。
+# 函数计算（FC 3.0）：custom.debian12 runtime + ZIP 代码包。
+# 参考 qtcloud-asset-provider 模式（无 Docker/镜像仓库依赖）：
+#   - Go 静态编译为 bootstrap，与数据源（fiction/memory）一起打 ZIP 上传 OSS
+#   - custom runtime 经 custom_runtime_config 指定启动命令与监听端口（9000）
+#   - HTTP 触发器公开访问，鉴权由应用层 SecretKeyAuth 中间件承担
 resource "alicloud_fcv3_function" "this" {
-  function_name   = "${var.project}-${var.environment}"
-  description     = "qtfounder 创作数据 API"
-  runtime         = "custom-container"
-  handler         = "index.handler" # custom-container 必填占位，实际由容器监听端口决定
-  cpu             = 0.5
-  memory_size     = var.fc_memory
-  disk_size       = 512 # FC 3.0 必填（MB）
-  timeout         = var.fc_timeout
-  internet_access = true
+  function_name        = "${var.project}-${var.environment}"
+  description          = "qtfounder 创作数据 API"
+  runtime              = "custom.debian12"
+  handler              = "not-used"
+  memory_size          = var.fc_memory
+  cpu                  = 0.5
+  disk_size            = 512
+  timeout              = var.fc_timeout
+  instance_concurrency = 10
+  internet_access      = true
 
-  custom_container_config {
-    image = var.image
-    port  = 8080
+  code {
+    oss_bucket_name = var.code_bucket
+    oss_object_name = var.code_object
+  }
+
+  custom_runtime_config {
+    command = ["./bootstrap"]
+    port    = 9000
   }
 
   # 访问控制：provider 内置 SecretKeyAuth 中间件（internal/creative/auth.go），
-  # 客户端以 Authorization: Bearer <key> 访问；QTFOUNDER_FICTION_PATH / QTFOUNDER_MEMORY_PATH
-  # 已在镜像内固化（/data/fiction、/data/memory），无需注入
+  # 客户端以 Authorization: Bearer <key> 访问。
+  # 注意：/health 在鉴权范围内返回 401，但 FC 健康检查不受应用层 HTTP 状态影响（仅探测端口连通性）
   environment_variables = {
-    QTFOUNDER_SECRET_KEY = var.secret_key
+    QTFOUNDER_SECRET_KEY   = var.secret_key
+    QTFOUNDER_ADDR         = ":9000"
+    QTFOUNDER_FICTION_PATH = "./data/fiction"
+    QTFOUNDER_MEMORY_PATH  = "./data/memory"
   }
 
   tags = {
@@ -30,7 +41,7 @@ resource "alicloud_fcv3_function" "this" {
   }
 }
 
-# HTTP 触发器：使服务可直接访问；鉴权由应用层密钥承担（匿名触发器 + Bearer 校验）
+# HTTP 触发器：公开访问 + 应用层 Bearer 鉴权
 resource "alicloud_fcv3_trigger" "http" {
   function_name = alicloud_fcv3_function.this.function_name
   trigger_name  = "http"
